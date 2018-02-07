@@ -10,6 +10,27 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
+            Network NN = new Network(21.5, new int[] { 2, 4, 2 });
+
+            IList<double> inputs = new List<double>
+            {
+                1.0,
+                0.0
+            };
+
+            IList<double> outtput = new List<double>
+            {
+                0.0,
+                1.0
+            };
+
+            for(int i = 0; i < 1000000; i++)
+            {
+                NN.StohasticGradient(inputs, outtput);
+            }
+
+
+            double[] check = NN.StohasticGradient(inputs, outtput);
         }
     }
 }
