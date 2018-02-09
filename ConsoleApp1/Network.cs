@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace ConsoleApp1
 {
     class Network
@@ -14,7 +11,7 @@ namespace ConsoleApp1
 
         public int LayerCount { get {return layers.Count; }}
 
-
+        public double Lamda { get; set; }
 
         public Network(double learningRate, int[] layerss)
         {
@@ -108,7 +105,7 @@ namespace ConsoleApp1
             for(int i=0; i < last.NeuronCount; i++)
             {
                 Neuron current = last.Neurons[i];
-                current.Delta = current.NeuronValue * (1 - current.NeuronValue) * ( current.NeuronValue - expectedOutput[i]);
+                current.Delta = current.NeuronValue * (1 - current.NeuronValue) * (current.NeuronValue - expectedOutput[i]);
             }
         }
 
@@ -155,11 +152,11 @@ namespace ConsoleApp1
                 for (int j = 0; j < this.layers[i].NeuronCount; j++)
                 {
                     Neuron currentN = this.layers[i].Neurons[j];
-                    currentN.Bias = currentN.Bias + this.LearningRate * currentN.Delta;
+                    currentN.Bias = currentN.Bias - this.LearningRate * currentN.Delta;
 
                     for (int k = 0; k < currentN.DendritesCount; k++)
                     {
-                        currentN.dendrites[k].Weight = currentN.dendrites[k].Weight + this.LearningRate * this.layers[i - 1].Neurons[k].NeuronValue * currentN.Delta;
+                        currentN.dendrites[k].Weight = currentN.dendrites[k].Weight - this.LearningRate * this.layers[i - 1].Neurons[k].NeuronValue * currentN.Delta;
                     }
                 }
             }
@@ -183,9 +180,29 @@ namespace ConsoleApp1
             for(int i=0; i < count; i++)
             {
                 this.layers[0].Neurons[i].NeuronValue = input[i];
+               
             }
             return true;
 
+        }
+
+        private void Shuffle(IList<double> list)
+        {
+            var count = list.Count;
+            var last = count - 1;
+            for (int i = 0; i < last; i++)
+            {
+                Random n = new Random();
+                var r = n.Next(i, count);
+                var tmp = list[i];
+                list[i] = list[r];
+                list[r] = tmp;
+            }
+        }
+
+        private void InLineShuffle(IList<double>s)
+        {
+          //  var shuffledList = s.OrderBy(x => Random.value).ToList(0);
         }
     }
 }

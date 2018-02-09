@@ -24,13 +24,28 @@ namespace ConsoleApp1
                 1.0
             };
 
-            for(int i = 0; i < 1000000; i++)
+            for (int i = 0; i < 10; i++)
             {
+                //better than function call. cos of speed
                 NN.StohasticGradient(inputs, outtput);
+                double temp = inputs[0];
+                inputs[0] = inputs[1];
+                inputs[1] = temp;
+
+
+                double tempp = outtput[0];
+
+                outtput[0] = outtput[1];
+                outtput[1] = tempp;
             }
 
-
             double[] check = NN.StohasticGradient(inputs, outtput);
+
+            double[,] tempppp = new double[3,3];
+            int size = tempppp.Length;
         }
+
+     
+        
     }
 }
